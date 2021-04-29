@@ -1,0 +1,79 @@
+.gameContainer {
+    border: 1px solid blue;
+    border-radius: 10px;
+    max-width: 600px;
+    min-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.makerSelectContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.makerButton {
+    margin: 20px;
+}
+
+.gameBoardContainer {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.tttButton {
+    width: 100%;
+    height: 100px;
+    background-color: transparent;
+    border: none;
+}
+.tttButton:hover {
+    cursor:pointer;
+}
+
+.One {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.Two {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.Three {
+    border-bottom: 2px solid black;
+}
+.Four {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.Five {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.Six {
+    border-bottom: 2px solid black;
+}
+.Seven {
+    border-right: 2px solid black;
+}
+.Eight {
+    border-right: 2px solid black;
+    
+}
+
+.restartContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.restartButton {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
