@@ -10,12 +10,12 @@
     flex-direction: column;
 }
 
-.makerSelectContainer {
+.markerSelectContainer {
     display: flex;
     justify-content: center;
 }
 
-.makerButton {
+.markerButton {
     margin: 20px;
 }
 
@@ -33,9 +33,13 @@
     height: 100px;
     background-color: transparent;
     border: none;
+    font-size: 30px;
 }
 .tttButton:hover {
     cursor:pointer;
+}
+.tttButton:disabled {
+    color: black;
 }
 
 .One {
