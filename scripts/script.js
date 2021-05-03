@@ -29,6 +29,7 @@ var gameInteract = (function () {
     const chooseXButon = document.querySelector('.markerButton.X');
     const chooseOButon = document.querySelector('.markerButton.O');
     const restartButton = document.querySelector('.restartButton');
+    var playerTurn = true;
     
     const markBoard = function (e) {
         if (player.playerSignX) {
@@ -38,9 +39,12 @@ var gameInteract = (function () {
         }
         e.target.disabled = true;
         gameBoard.setBoard();
+        playerTurn = !playerTurn;
+        chooseOButon.disabled = true;
+        chooseXButon.disabled = true;
         checkForWin();
-        }
-
+    }
+   
     const checkForWin = function () {
         switch(true) {
             case (gameBoard.moves[0] === gameBoard.moves[1] 
@@ -92,13 +96,15 @@ var gameInteract = (function () {
                 restart();
             break;
             default:
-            //toggle variable for player turn
-            computerPlay();
+            if(gameBoard.moves.includes('')) {
+                computerPlay();
+            }else {
+                alert('its a tie!');
+            }
         }
-       
-
     }
     const computerPlay = function () {
+        if (playerTurn) return;
         let computerNotPlayed = true;
         while (computerNotPlayed) {
             var randomNumber = Math.floor(Math.random() * 9);
@@ -106,44 +112,40 @@ var gameInteract = (function () {
                 if(player.playerSignX) {
                     gameBoard.moves[randomNumber] = 'o';
                     gameBoard.setBoard();
+                    computerNotPlayed = false;
                 }else {gameBoard.moves[randomNumber] = 'x';
                     gameBoard.setBoard();
+                    computerNotPlayed = false;
                 }
             }
-        //computer play on random button with no text
-        //check for win
         }
+        playerTurn = !playerTurn;
+        checkForWin();
     }
     const restart = function () {
         gameBoard.moves = ['', '', '', '', '', '', '', '', '']; 
         gameBoard.setBoard();
         gridButton.forEach(button => button.disabled = false);
-
+        chooseOButon.disabled = false;
+        chooseXButon.disabled = false;
+        playerTurn = true;
     }
     gridButton.forEach(button => button.addEventListener('click', markBoard));
     restartButton.addEventListener('click', restart);
-    chooseXButon.addEventListener('click', () => player.playerSignX = true);
-    chooseOButon.addEventListener('click', () => player.playerSignX = false);
-    //add some logic so you cant change sign mid game
+    chooseXButon.addEventListener('click', () => {
+        player.playerSignX = true
+        chooseXButon.classList.add('markerButtonSel');
+        chooseOButon.classList.remove('markerButtonSel');
+    });
+    chooseOButon.addEventListener('click', () => {
+        player.playerSignX = false;
+        chooseOButon.classList.add('markerButtonSel');
+        chooseXButon.classList.remove('markerButtonSel');
+    });
     return {
         gridButton
     }
 })();   
-
-
-/*
-Don’t forget the logic that keeps players from playing in spots that are
- already taken!
-Think carefully about where each bit of logic should reside. 
-Each little piece of functionality should be able to fit in the game, 
-player or moves objects.. but take care to put them in “logical” places. 
-Spending a little time brainstorming here can make your life much easier 
-later!
-*/
-
-// Build the logic that checks for when the game is over! 
-// Should check for 3-in-a-row and a tie.
-
 
 // Clean up the interface to allow players to put in their names, 
 // include a button to start/restart the game and add a display 

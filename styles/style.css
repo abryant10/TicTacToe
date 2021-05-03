@@ -1,6 +1,19 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    
+}
+.headerContainer {
+    display: flex;
+    justify-content: center;
+}
+.header {
+    margin-top: 35px;
+    font-size: 60px;
+}
+
 .gameContainer {
-    border: 1px solid blue;
-    border-radius: 10px;
+    border: 3px solid rgb(147, 147, 148);
+    border-radius: 50px;
     max-width: 600px;
     min-width: 300px;
     margin-left: auto;
@@ -8,6 +21,7 @@
     margin-top: 50px;
     display: flex;
     flex-direction: column;
+    box-shadow: 8px 10px 20px 0px rgb(87, 87, 87);
 }
 
 .markerSelectContainer {
@@ -17,8 +31,21 @@
 
 .markerButton {
     margin: 20px;
+    margin-bottom: 40px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: transparent;
+    border: 1px solid rgb(184, 184, 184);
+    border-radius: 15px;
+    box-shadow: 2px 2px 3px 0px rgb(87, 87, 87);
 }
-
+.markerButtonSel {
+    border: 2px solid rgb(151, 150, 250);
+}
+.markerButton:hover {
+    border: 2px solid rgb(151, 150, 250);
+}
 .gameBoardContainer {
     width: 400px;
     margin-left: auto;
@@ -33,7 +60,7 @@
     height: 100px;
     background-color: transparent;
     border: none;
-    font-size: 30px;
+    font-size: 70px;
 }
 .tttButton:hover {
     cursor:pointer;
@@ -78,6 +105,14 @@
 }
 
 .restartButton {
-    margin-top: 20px;
-    margin-bottom: 10px;
+    background-color: transparent;
+    border: 1px solid rgb(184, 184, 184);
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    box-shadow: 2px 2px 3px 0px rgb(87, 87, 87);
+}
+.restartButton:hover {
+    border: 2px solid rgb(151, 150, 250);
 }
