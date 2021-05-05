@@ -5,18 +5,19 @@ var gameBoard = (function () {
        moves = gameBoard.moves;
        let i = 0;
         for (i; i < 9; i++) {
-            gameInteract.gridButton[i].textContent = moves[i];
+            gameInteract.gridButton[i].innerHTML = moves[i];
         }
     }
        return {
-       setBoard, moves
+       setBoard, 
+       moves
     }    
 })();
 
 var player = (function () {
-    var playerSignX = true;
+    var playerSign = 'X';
     return {
-       playerSignX
+       playerSign
     }
 })();
 
@@ -35,40 +36,24 @@ var gameInteract = (function () {
     const winPopup = document.querySelector('.win-popup');
     const winMessageArea = document.querySelector('.win-message');
     var playerTurn = true;
+    var gameOver = false;
     
     const playerPlay = function (e) {
-
+        markBoard(e.target, player.playerSign);
     }
+
     const markBoard = function (location, sign) {
-        if (player.playerSignX) {
-            gameBoard.moves[e.target.dataset.index] = 'X';
-            //add red class            
-        } else {
-            gameBoard.moves[e.target.dataset.index] = 'O';
-            //add blue class            
+        location.innerHTML = sign;
+        location.disabled = true;
+        if (sign == 'O'){
+            location.classList.add('blueO');
         }
-        e.target.disabled = true;
-        gameBoard.setBoard();
+        gameBoard.moves[location.dataset.index] = sign;
         playerTurn = !playerTurn;
         chooseOButon.disabled = true;
         chooseXButon.disabled = true;
         checkForWin();
     }
-    // const markBoard = function (e) {
-    //     if (player.playerSignX) {
-    //         gameBoard.moves[e.target.dataset.index] = 'X';
-    //         //add red class            
-    //     } else {
-    //         gameBoard.moves[e.target.dataset.index] = 'O';
-    //         //add blue class            
-    //     }
-    //     e.target.disabled = true;
-    //     gameBoard.setBoard();
-    //     playerTurn = !playerTurn;
-    //     chooseOButon.disabled = true;
-    //     chooseXButon.disabled = true;
-    //     checkForWin();
-    // }
    
     const checkForWin = function () {
         switch(true) {
@@ -76,78 +61,152 @@ var gameInteract = (function () {
                     && gameBoard.moves[0] === gameBoard.moves[2]
                     && gameBoard.moves[0] != ''):
                 winGameMessage(gameBoard.moves[0]);
+                gameOver = true;
             break;
             case (gameBoard.moves[3] === gameBoard.moves[4] 
                     && gameBoard.moves[3] === gameBoard.moves[5]
                     && gameBoard.moves[3] != ''):
                 winGameMessage(gameBoard.moves[3]);
+                gameOver = true;
             break;
             case (gameBoard.moves[6] === gameBoard.moves[7] 
                     && gameBoard.moves[6] === gameBoard.moves[8]
                     && gameBoard.moves[6] != ''):
                 winGameMessage(gameBoard.moves[6]);
+                gameOver = true;
+
             break;
             case (gameBoard.moves[0] === gameBoard.moves[3] 
                     && gameBoard.moves[0] === gameBoard.moves[6]
                     && gameBoard.moves[0] != ''):
                 winGameMessage(gameBoard.moves[0]);
+                gameOver = true;
             break;
             case (gameBoard.moves[1] === gameBoard.moves[4] 
                     && gameBoard.moves[1] === gameBoard.moves[7]
                     && gameBoard.moves[1] != ''):
                 winGameMessage(gameBoard.moves[1]);
+                gameOver = true;
             break;
             case (gameBoard.moves[2] === gameBoard.moves[5] 
                     && gameBoard.moves[2] === gameBoard.moves[8]
                     && gameBoard.moves[2] != ''):
                 winGameMessage(gameBoard.moves[2]);
+                gameOver = true;
             break;
             case (gameBoard.moves[0] === gameBoard.moves[4] 
                     && gameBoard.moves[0] === gameBoard.moves[8]
                     && gameBoard.moves[0] != ''):
                 winGameMessage(gameBoard.moves[0]);
+                gameOver = true;
             break;
             case (gameBoard.moves[2] === gameBoard.moves[4] 
                     && gameBoard.moves[2] === gameBoard.moves[6]
                     && gameBoard.moves[2] != ''):
                 winGameMessage(gameBoard.moves[2]);
+                gameOver = true;
             break;
             default:
             if(gameBoard.moves.includes('')) {
+                console.log('test');
                 setTimeout(() => {computerPlay();}, 1000);
             }else {
                 alert('its a tie!');
             }
         }
     }
-    
     const computerPlay = function () {
         if (playerTurn) return;
-        let computerNotPlayed = true;
-        while (computerNotPlayed) {
-            var randomNumber = Math.floor(Math.random() * 9);
-            if (gameBoard.moves[randomNumber] === '') {
-                if(player.playerSignX) {
-                    gameBoard.moves[randomNumber] = 'O';
-                    gridButton[randomNumber].disabled = true;
-                    //add red class
-                    gameBoard.setBoard();
+        if (gameOver) return;
+        checkForCheckMate(gameBoard.moves);
+        if (checkForCheckMate.checkmate == true) {
+            markBoard(checkForCheckMate.checkmateLocation, computerPlayer.computerSign);
+        } else {
+            let computerNotPlayed = true;
+            while (computerNotPlayed) {
+                var randomNumber = Math.floor(Math.random() * 9);
+                var compLocation = gridButton[randomNumber];
+                if (gameBoard.moves[randomNumber] === '') {
                     computerNotPlayed = false;
-                }else {
-                    gameBoard.moves[randomNumber] = 'X';
-                    gridButton[randomNumber].disabled = true;
-                    //add blue class
-                    gameBoard.setBoard();
-                    computerNotPlayed = false;
+                    markBoard(compLocation, computerPlayer.computerSign);
                 }
             }
         }
-        playerTurn = !playerTurn;
-        checkForWin();
+    }
+    const checkForCheckMate = function (data) {
+        var checkmate = false;
+        let i = 0;
+        while (checkmate = false || i < 9) {    
+            console.log('test 1');
+            if (data[i] == '') {
+                console.log('test 2');
+                var futureMoves = gameBoard.moves;
+                futureMoves[i] = player.playerSign;
+                var checkmateLocation; 
+                switch(true) {
+                    case (futureMoves[0] === futureMoves[1] 
+                            && futureMoves[0] === futureMoves[2]
+                            && futureMoves[0] != ''):
+                        checkmate = true;
+                        checkmateLocation = i;
+                    case (futureMoves[3] === futureMoves[4] 
+                            && futureMoves[3] === futureMoves[5]
+                            && futureMoves[3] != ''):
+                        checkmate = true;
+                        checkmateLocation = i;
+                    break;
+                    case (futureMoves[6] === futureMoves[7] 
+                            && futureMoves[6] === futureMoves[8]
+                            && futureMoves[6] != ''):
+                        checkmate = true;
+                        checkmateLocation = i;
+                    break;
+                    case (futureMoves[0] === futureMoves[3] 
+                            && futureMoves[0] === futureMoves[6]
+                            && futureMoves[0] != ''):
+                        checkmate = true;
+                        checkmateLocation = i;
+                    break;
+                    case (futureMoves[1] === futureMoves[4] 
+                            && futureMoves[1] === futureMoves[7]
+                            && futureMoves[1] != ''):
+                        checkmate = true;
+                        checkmateLocation = i;
+                    break;
+                    case (futureMoves[2] === futureMoves[5] 
+                            && futureMoves[2] === futureMoves[8]
+                            && futureMoves[2] != ''):
+                        checkmate = true;
+                        checkmateLocation = i;
+                    break;
+                    case (futureMoves[0] === futureMoves[4] 
+                            && futureMoves[0] === futureMoves[8]
+                            && futureMoves[0] != ''):
+                        checkmate = true;
+                        checkmateLocation = i;
+                    break;
+                    case (futureMoves[2] === futureMoves[4] 
+                            && futureMoves[2] === futureMoves[6]
+                            && futureMoves[2] != ''):
+                        checkmate = true;
+                        checkmateLocation = i;
+                    break;
+                    default: 
+                    i++;
+                }
+            }else {
+                console.log('test 3');
+                i++;
+            }        
+        }
     }
     const winGameMessage = function (sign) {
         winPopup.style.display = 'block';
-        winMessageArea.innerHTML = `${sign} Wins!`;
+        if (sign == 'X') {
+            winMessageArea.innerHTML = `<span style='color: rgb(252, 70, 70)'>X</span> Wins!`;
+        } else {
+            winMessageArea.innerHTML = `<span style='color: rgb(113, 111, 243)'>O</span> Wins!`;
+        }
     } 
     const restart = function () {
         gameBoard.moves = ['', '', '', '', '', '', '', '', '']; 
@@ -156,36 +215,38 @@ var gameInteract = (function () {
         chooseOButon.disabled = false;
         chooseXButon.disabled = false;
         playerTurn = true;
+        gameOver = false;
         winPopup.style.display = 'none';
     }
     const gridHover = function (e) {
-        if (e.target.innerHTML != '') return;
-        if (player.playerSignX){
+        if (e.target.innerHTML !== '') return;
+        if (player.playerSign == 'X'){
             e.target.innerHTML = 'X';
-            //add red transparent class
         }else {
             e.target.innerHTML = 'O';
-            // add blue transpartnet class
+            e.target.classList.add('blueO');
         }
     }
     const gridHoverOut = function (e) {
         e.target.innerHTML = '';
-       // e.target.remove red tans and blue trans classes
+        e.target.classList.remove('blueO');
     } 
 
-    gridButton.forEach(button => button.addEventListener('click', markBoard));
+    gridButton.forEach(button => button.addEventListener('click', playerPlay));
     gridButton.forEach(button => button.addEventListener('mouseover', gridHover));
     gridButton.forEach(button => button.addEventListener('mouseout', gridHoverOut));
     restartButton.forEach(button => button.addEventListener('click', restart));
     chooseXButon.addEventListener('click', () => {
-        player.playerSignX = true
-        chooseXButon.classList.add('markerButtonSel');
-        chooseOButon.classList.remove('markerButtonSel');
+        player.playerSign = 'X';
+        computerPlayer.computerSign = 'O';
+        chooseXButon.classList.add('markerButtonSelX');
+        chooseOButon.classList.remove('markerButtonSelO');
     });
     chooseOButon.addEventListener('click', () => {
-        player.playerSignX = false;
-        chooseOButon.classList.add('markerButtonSel');
-        chooseXButon.classList.remove('markerButtonSel');
+        player.playerSign = 'O';
+        computerPlayer.computerSign = 'X';
+        chooseOButon.classList.add('markerButtonSelO');
+        chooseXButon.classList.remove('markerButtonSelX');
     });
     return {
         gridButton
@@ -197,13 +258,3 @@ var gameInteract = (function () {
 // Once you’ve gotten that, work on making the computer smart. It is possible to create an unbeatable AI using the minimax algorithm (read about it here, some googling will help you out with this one)
 // If you get this running definitely come show it off in the chatroom. It’s quite an accomplishment!
 
-//optional hover of marker that was selected on gamebord
-// add a class so Xs are red and Os are blue
-
-//bug where computer plays after first win...
-
-//make tick tack toe red black blue
-
-//make computer play use player play function
-
-//make red class standard for tttbutton, just add blue class to Os 
