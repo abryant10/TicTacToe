@@ -57,6 +57,8 @@ const ticTacToeGame = (function () {
             playerTurn = !playerTurn;
             chooseOButon.disabled = true;
             chooseXButon.disabled = true;
+            console.log('marking board');
+            console.log(playerTurn);
             checkForWin();
         }
     
@@ -112,10 +114,12 @@ const ticTacToeGame = (function () {
                     gameOver = true;
                 break;
                 default:
+                console.log(gameBoard.moves);
                 if(gameBoard.moves.includes('')) {
                     setTimeout(() => {computerPlay();}, 1000);
                 }else {
                     tieGameMessage(); 
+                    console.log('after tie');
                 }
             }
         }
@@ -331,6 +335,3 @@ const ticTacToeGame = (function () {
         }
     })();   
 })();
-// It is possible to create an unbeatable AI using the minimax algorithm (read about it here, some googling will help you out with this one)
-
-// two ties crashes the game
