@@ -113,7 +113,7 @@ const ticTacToeGame = (function () {
                 break;
                 default:
                 if(gameBoard.moves.includes('')) {
-                    setTimeout(() => {computerPlay();}, 1000);
+                    computerPlay();
                 }else {
                     tieGameMessage(); 
                 }
