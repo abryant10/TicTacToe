@@ -1,6 +1,5 @@
 html {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    
 }
 .headerContainer {
     display: flex;
@@ -11,7 +10,6 @@ html {
     font-size: 60px;
     text-shadow: 2px 2px 10px rgb(114, 114, 114);
 }
-
 .gameContainer {
     border: 3px solid rgb(147, 147, 148);
     border-radius: 50px;
@@ -24,12 +22,10 @@ html {
     flex-direction: column;
     box-shadow: 8px 10px 20px 0px rgb(87, 87, 87);
 }
-
 .markerSelectContainer {
     display: flex;
     justify-content: center;
 }
-
 .markerButton {
     margin: 20px;
     margin-bottom: 40px;
@@ -61,7 +57,6 @@ html {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
 }
-
 .tttButton {
     width: 100%;
     height: 100px;
@@ -70,7 +65,7 @@ html {
     font-size: 70px;
     color: rgb(252, 70, 70);
 }
-.tttButton:hover {
+.tttButton:hover:enabled {
     cursor:pointer;
     animation-name: animateHover;
     animation-duration: 0.4s;
@@ -106,14 +101,11 @@ html {
 }
 .Eight {
     border-right: 2px solid black;
-    
 }
-
 .restartContainer {
     display: flex;
     justify-content: center;
 }
-
 .restartButton {
     background-color: transparent;
     border: 1px solid rgb(184, 184, 184);

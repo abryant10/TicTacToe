@@ -37,6 +37,8 @@ var gameInteract = (function () {
     const winMessageArea = document.querySelector('.win-message');
     var playerTurn = true;
     var gameOver = false;
+    var checkmate = false;
+    var checkmateLocation;
     
     const playerPlay = function (e) {
         markBoard(e.target, player.playerSign);
@@ -108,10 +110,9 @@ var gameInteract = (function () {
             break;
             default:
             if(gameBoard.moves.includes('')) {
-                console.log('test');
                 setTimeout(() => {computerPlay();}, 1000);
             }else {
-                alert('its a tie!');
+                tieGameMessage(); 
             }
         }
     }
@@ -119,8 +120,8 @@ var gameInteract = (function () {
         if (playerTurn) return;
         if (gameOver) return;
         checkForCheckMate(gameBoard.moves);
-        if (checkForCheckMate.checkmate == true) {
-            markBoard(checkForCheckMate.checkmateLocation, computerPlayer.computerSign);
+        if (checkmate == true) {
+            markBoard(gridButton[checkmateLocation], computerPlayer.computerSign);
         } else {
             let computerNotPlayed = true;
             while (computerNotPlayed) {
@@ -134,21 +135,19 @@ var gameInteract = (function () {
         }
     }
     const checkForCheckMate = function (data) {
-        var checkmate = false;
+        checkmate = false;
         let i = 0;
-        while (checkmate = false || i < 9) {    
-            console.log('test 1');
-            if (data[i] == '') {
-                console.log('test 2');
-                var futureMoves = gameBoard.moves;
+        while (checkmate === false && i < 9) {    
+            if (data[i] === '') {
+                var futureMoves = gameBoard.moves.slice();
                 futureMoves[i] = player.playerSign;
-                var checkmateLocation; 
                 switch(true) {
                     case (futureMoves[0] === futureMoves[1] 
                             && futureMoves[0] === futureMoves[2]
                             && futureMoves[0] != ''):
                         checkmate = true;
                         checkmateLocation = i;
+                    break;
                     case (futureMoves[3] === futureMoves[4] 
                             && futureMoves[3] === futureMoves[5]
                             && futureMoves[3] != ''):
@@ -195,9 +194,8 @@ var gameInteract = (function () {
                     i++;
                 }
             }else {
-                console.log('test 3');
                 i++;
-            }        
+            }
         }
     }
     const winGameMessage = function (sign) {
@@ -207,11 +205,18 @@ var gameInteract = (function () {
         } else {
             winMessageArea.innerHTML = `<span style='color: rgb(113, 111, 243)'>O</span> Wins!`;
         }
+    }
+    const tieGameMessage = function () {
+        winPopup.style.display = 'block';
+        winMessageArea.innerHTML = "It's a tie!";
     } 
     const restart = function () {
         gameBoard.moves = ['', '', '', '', '', '', '', '', '']; 
         gameBoard.setBoard();
-        gridButton.forEach(button => button.disabled = false);
+        gridButton.forEach(button => {
+            button.disabled = false;
+            button.classList.remove('blueO');
+        });
         chooseOButon.disabled = false;
         chooseXButon.disabled = false;
         playerTurn = true;
@@ -223,8 +228,8 @@ var gameInteract = (function () {
         if (player.playerSign == 'X'){
             e.target.innerHTML = 'X';
         }else {
-            e.target.innerHTML = 'O';
             e.target.classList.add('blueO');
+            e.target.innerHTML = 'O';
         }
     }
     const gridHoverOut = function (e) {
@@ -253,8 +258,5 @@ var gameInteract = (function () {
     }
 })();   
 
-// Optional - If you’re feeling ambitious create an AI so that a player can play against the computer!
-// Start by just getting the computer to make a random legal move.
-// Once you’ve gotten that, work on making the computer smart. It is possible to create an unbeatable AI using the minimax algorithm (read about it here, some googling will help you out with this one)
-// If you get this running definitely come show it off in the chatroom. It’s quite an accomplishment!
+// It is possible to create an unbeatable AI using the minimax algorithm (read about it here, some googling will help you out with this one)
 
