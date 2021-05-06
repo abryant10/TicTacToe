@@ -1,2 +1,2 @@
-# TicTackToe
-Browser tick tack toe game
+# TicTacToe
+Browser tic tac toe game
