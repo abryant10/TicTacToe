@@ -57,8 +57,6 @@ const ticTacToeGame = (function () {
             playerTurn = !playerTurn;
             chooseOButon.disabled = true;
             chooseXButon.disabled = true;
-            console.log('marking board');
-            console.log(playerTurn);
             checkForWin();
         }
     
@@ -114,12 +112,10 @@ const ticTacToeGame = (function () {
                     gameOver = true;
                 break;
                 default:
-                console.log(gameBoard.moves);
                 if(gameBoard.moves.includes('')) {
                     setTimeout(() => {computerPlay();}, 1000);
                 }else {
                     tieGameMessage(); 
-                    console.log('after tie');
                 }
             }
         }
@@ -129,13 +125,10 @@ const ticTacToeGame = (function () {
             checkForCompWin(gameBoard.moves);
             checkForCheckMate(gameBoard.moves);
             if (compWillWin){
-                console.log('WIN!')
                 markBoard(gridButton[compWinLocation], computerPlayer.computerSign);
             }else if (checkmate) {
-                console.log('die!')
                 markBoard(gridButton[checkmateLocation], computerPlayer.computerSign);
             } else {
-                console.log('random');
                 let computerNotPlayed = true;
                 while (computerNotPlayed) {
                     var randomNumber = Math.floor(Math.random() * 9);
